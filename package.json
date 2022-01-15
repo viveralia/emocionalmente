@@ -36,6 +36,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-react-native": "^4.0.0",
+    "git-branch-is": "^4.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.7",
     "prettier": "^2.5.1",
@@ -50,6 +51,8 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
+      "git-branch-is --not main",
+      "git-branch-is --not develop",
       "tsc-files --noEmit",
       "eslint --fix"
     ]
