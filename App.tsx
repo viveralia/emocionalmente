@@ -1,20 +1,37 @@
+import AppLoading from "expo-app-loading";
+import * as Font from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { NativeBaseProvider } from "native-base";
+import { FC, useEffect, useState } from "react";
 
-export default function App() {
+import RootNavigator from "./src/navigators/RootNavigator";
+import { fonts, lightTheme } from "./src/themes";
+
+const App: FC = () => {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const bootUp = async () => {
+      try {
+        await Font.loadAsync(fonts);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsReady(true);
+      }
+    };
+
+    bootUp();
+  }, []);
+
+  if (!isReady) return <AppLoading />;
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <NativeBaseProvider theme={lightTheme}>
       <StatusBar style="auto" />
-    </View>
+      <RootNavigator />
+    </NativeBaseProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    backgroundColor: "#fff",
-    flex: 1,
-    justifyContent: "center",
-  },
-});
+export default App;
