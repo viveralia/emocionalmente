@@ -1,8 +1,10 @@
+import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FC } from "react";
 
 import ProfileScreen from "../screens/ProfileScreen";
 import ReportsScreen from "../screens/ReportsScreen";
+import { medium } from "../themes/fonts";
 import EntriesNavigator from "./EntriesNavigator";
 
 export type TabsParams = {
@@ -15,10 +17,40 @@ const Tab = createBottomTabNavigator<TabsParams>();
 
 const TabNavigator: FC = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Entries" component={EntriesNavigator} options={{ title: "Entradas" }} />
-      <Tab.Screen name="Reports" component={ReportsScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+    <Tab.Navigator
+      screenOptions={{
+        headerTitleStyle: {
+          fontFamily: medium,
+        },
+        tabBarLabelStyle: {
+          fontFamily: medium,
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Entries"
+        component={EntriesNavigator}
+        options={{
+          title: "Entradas",
+          tabBarIcon: (props) => <Ionicons name="book" {...props} />,
+        }}
+      />
+      <Tab.Screen
+        name="Reports"
+        component={ReportsScreen}
+        options={{
+          title: "Reportes",
+          tabBarIcon: (props) => <Ionicons name="podium" {...props} />,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          title: "Perfil",
+          tabBarIcon: (props) => <Ionicons name="person" {...props} />,
+        }}
+      />
     </Tab.Navigator>
   );
 };

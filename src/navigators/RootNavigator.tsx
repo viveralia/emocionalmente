@@ -4,6 +4,7 @@ import { FC } from "react";
 
 import OnBoardingProfileScreen from "../screens/OnBoardingProfileScreen";
 import OnBoardingWelcomeScreen from "../screens/OnBoardingWelcomeScreen";
+import { lightTheme } from "../themes/navigation";
 import TabNavigator from "./TabNavigator";
 
 export type RootStackParamList = {
@@ -15,10 +16,10 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator: FC = () => {
-  const user = null;
+  const user = false;
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={lightTheme}>
       <Stack.Navigator>
         {!user ? (
           <>

@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Box, Button, Text } from "native-base";
 import { FC } from "react";
 
+import EmotionsCarousel from "../components/EmotionsCarousel";
 import { RootStackParamList } from "../navigators/RootNavigator";
 
 const OnBoardingWelcomeScreen: FC<NativeStackScreenProps<RootStackParamList>> = ({
@@ -12,8 +13,9 @@ const OnBoardingWelcomeScreen: FC<NativeStackScreenProps<RootStackParamList>> = 
   };
 
   return (
-    <Box safeArea bg="yellow.300" flex={1} alignItems="center" justifyContent="center">
+    <Box safeArea bg="brand" flex={1} alignItems="center" justifyContent="center">
       <Text textAlign="center">On boarding welcome</Text>
+      <EmotionsCarousel />
       <Button mt={2} onPress={handlePress}>
         Continue
       </Button>
