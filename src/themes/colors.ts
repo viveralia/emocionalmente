@@ -1,11 +1,12 @@
 import { Theme } from "native-base";
 
-// Yellow: yellow.300
-// Blue: primary.600
-// Text dark: darkText
-// Text light: lightText
-// Gray background: blueGray.50
-export const colors: Partial<Theme["colors"]> = {
+export interface Colors extends Partial<Theme["colors"]> {
+  brand: string;
+  darkBackground: string;
+  lightBackground: string;
+}
+
+export const lightPalette: Colors = {
   primary: {
     50: "#dbfbff",
     100: "#b0efff",
@@ -18,6 +19,21 @@ export const colors: Partial<Theme["colors"]> = {
     800: "#003d4b",
     900: "#00161c",
   },
+  secondary: {
+    50: "#fff3db",
+    100: "#ffe1ae",
+    200: "#fed17f",
+    300: "#fcc64e",
+    400: "#fbbd1e",
+    500: "#e19504",
+    600: "#af6800",
+    700: "#7d4200",
+    800: "#4c2300",
+    900: "#1c0800",
+  },
   darkText: "#1E2831",
   lightText: "#4E6477",
+  brand: "#FDE047",
+  darkBackground: "#F8FAFC",
+  lightBackground: "#FFFFFF",
 };

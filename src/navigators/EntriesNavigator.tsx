@@ -3,6 +3,7 @@ import { FC } from "react";
 
 import CreateEntryScreen from "../screens/CreateEntryScreen";
 import EntriesScreen from "../screens/EntriesScreen";
+import { medium } from "../themes/fonts";
 
 export type EntriesStackParamList = {
   EntriesList: undefined;
@@ -13,7 +14,13 @@ const Stack = createNativeStackNavigator<EntriesStackParamList>();
 
 const EntriesNavigator: FC = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitleStyle: {
+          fontFamily: medium,
+        },
+      }}
+    >
       <Stack.Screen name="EntriesList" component={EntriesScreen} options={{ headerShown: false }} />
       <Stack.Screen
         name="CreateEntry"
