@@ -3,6 +3,7 @@ import { Box, Button, Text } from "native-base";
 import { FC } from "react";
 
 import EmotionsCarousel from "../components/EmotionsCarousel";
+import Logo from "../components/Logo";
 import { RootStackParamList } from "../navigators/RootNavigator";
 
 const OnBoardingWelcomeScreen: FC<NativeStackScreenProps<RootStackParamList>> = ({
@@ -13,11 +14,18 @@ const OnBoardingWelcomeScreen: FC<NativeStackScreenProps<RootStackParamList>> = 
   };
 
   return (
-    <Box safeArea bg="brand" flex={1} alignItems="center" justifyContent="center">
-      <Text textAlign="center">On boarding welcome</Text>
+    <Box safeArea bg="brand" padding={5} flex={1} alignItems="center" justifyContent="center">
+      <Logo />
       <EmotionsCarousel />
-      <Button mt={2} onPress={handlePress}>
-        Continue
+      <Text fontSize={26} bold={true} textAlign="left">
+        Pellentesque habitant morbi tristique senectus.
+      </Text>
+      <Text textAlign="left">
+        In mauris justo, tempor nec vehicula vel, scelerisque vel elit. Pellentesque habitant morbi
+        tristique senectus.
+      </Text>
+      <Button mt={2} onPress={handlePress} width={"full"}>
+        Continuar
       </Button>
     </Box>
   );
