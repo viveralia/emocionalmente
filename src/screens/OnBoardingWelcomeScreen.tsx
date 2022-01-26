@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Box, Button, Text } from "native-base";
+import { Box, Button, Text, Heading } from "native-base";
 import { FC } from "react";
 
 import EmotionsCarousel from "../components/EmotionsCarousel";
@@ -14,19 +14,30 @@ const OnBoardingWelcomeScreen: FC<NativeStackScreenProps<RootStackParamList>> = 
   };
 
   return (
-    <Box safeArea bg="brand" padding={5} flex={1} alignItems="center" justifyContent="center">
-      <Logo />
+    <Box
+      safeArea
+      bg="brand"
+      padding={5}
+      flex={1}
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <Box marginTop={7}>
+        <Logo />
+      </Box>
       <EmotionsCarousel />
-      <Text fontSize={26} bold={true} textAlign="left">
-        Pellentesque habitant morbi tristique senectus.
-      </Text>
-      <Text textAlign="left">
-        In mauris justo, tempor nec vehicula vel, scelerisque vel elit. Pellentesque habitant morbi
-        tristique senectus.
-      </Text>
-      <Button mt={2} onPress={handlePress} width={"full"}>
-        Continuar
-      </Button>
+      <Box>
+        <Heading fontSize={26} marginBottom={4} color={"#1E2831"}>
+          Pellentesque habitant morbi tristique senectus.
+        </Heading>
+        <Text fontSize={16} color={"#4E6477"}>
+          In mauris justo, tempor nec vehicula vel, scelerisque vel elit. Pellentesque habitant
+          morbi tristique senectus.
+        </Text>
+        <Button onPress={handlePress} marginTop={47} marginBottom={2} backgroundColor={"#0891B2"}>
+          Continuar
+        </Button>
+      </Box>
     </Box>
   );
 };
