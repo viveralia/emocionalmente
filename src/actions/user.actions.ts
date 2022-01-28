@@ -5,7 +5,7 @@ import { CreateUserDto, UpdateUserDto } from "../dtos/user.dto";
 import { UserModel } from "../models/user.model";
 import { UserRepository } from "../repositories/user.repository";
 
-export const logIn = createAsyncThunk<UserModel, CreateUserDto>("user/logIn", async (payload) => {
+export const signUp = createAsyncThunk<UserModel, CreateUserDto>("user/signUp", async (payload) => {
   const connection = getConnection();
   const userRepository = new UserRepository(connection);
   return userRepository.create(payload);

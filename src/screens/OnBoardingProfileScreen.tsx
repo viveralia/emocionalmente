@@ -1,13 +1,16 @@
-/* eslint-disable no-console */
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Box, Button, Text, Heading, FormControl, Input, Radio, VStack } from "native-base";
 import { FC } from "react";
 import { useForm, Controller, Resolver } from "react-hook-form";
 
+import { signUp } from "../actions/user.actions";
+import { useAppDispatch } from "../hooks/redux";
 import { RootStackParamList } from "../navigators/RootNavigator";
 import Logo from "./../components/Logo";
 
 const OnBoardingProfileScreen: FC<NativeStackScreenProps<RootStackParamList>> = () => {
+  const dispatch = useAppDispatch();
+
   const resolver: Resolver<FormValues> = async (values) => {
     return {
       values: values.name ? values : {},
@@ -24,7 +27,7 @@ const OnBoardingProfileScreen: FC<NativeStackScreenProps<RootStackParamList>> = 
 
   type FormValues = {
     name: string;
-    gender: string;
+    avatar: "LUP" | "VALU";
   };
 
   const {
@@ -35,19 +38,19 @@ const OnBoardingProfileScreen: FC<NativeStackScreenProps<RootStackParamList>> = 
   } = useForm<FormValues>({
     resolver,
     defaultValues: {
-      gender: "LUP",
+      avatar: "LUP",
       name: "",
     },
   });
 
-  const avatar = watch("gender");
+  const avatar = watch("avatar");
 
   const onSubmit = (data: FormValues) => {
-    console.log("submiting with ", data);
-    // navigation.navigate();
+    dispatch(signUp({ avatar: data.avatar, name: data.name }));
   };
 
   return (
+    // TODO: Add Keyboard avoiding view functionality
     <VStack safeAreaTop bg="brand" flex={1} alignItems="center" justifyContent="space-between">
       <Box marginTop={24}>
         <Logo />
@@ -98,7 +101,7 @@ const OnBoardingProfileScreen: FC<NativeStackScreenProps<RootStackParamList>> = 
           <Controller
             control={control}
             defaultValue="LUP"
-            name="gender"
+            name="avatar"
             render={({ field: { onChange, name, value } }) => (
               <Radio.Group
                 name={name}
