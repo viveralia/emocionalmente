@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { FC } from "react";
 
+import { useAppSelector } from "../hooks/redux";
 import OnBoardingProfileScreen from "../screens/OnBoardingProfileScreen";
 import OnBoardingWelcomeScreen from "../screens/OnBoardingWelcomeScreen";
 import { lightTheme } from "../themes/navigation";
@@ -16,12 +17,12 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator: FC = () => {
-  const user = false;
+  const { profile } = useAppSelector((state) => state.user);
 
   return (
     <NavigationContainer theme={lightTheme}>
       <Stack.Navigator>
-        {!user ? (
+        {!profile ? (
           <>
             <Stack.Screen
               name="OnBoardingWelcome"

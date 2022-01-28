@@ -1,5 +1,8 @@
 {
   "expo": {
+    "packagerOpts": {
+      "config": "metro.config.js"
+    },
     "name": "emocionalmente",
     "slug": "emocionalmente",
     "version": "1.0.0",
