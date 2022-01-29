@@ -1,6 +1,6 @@
 import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 
-import { getUserProfile, logIn, logOut, updateUserProfile } from "../actions/user.actions";
+import { getUserProfile, signUp, logOut, updateUserProfile } from "../actions/user.actions";
 import { UserModel } from "../models/user.model";
 
 interface UserSliceInitialState {
@@ -18,18 +18,18 @@ const userSlice = createSlice<UserSliceInitialState, SliceCaseReducers<UserSlice
   },
   reducers: {},
   extraReducers: (builder) => {
-    // logIn cases
-    builder.addCase(logIn.pending, (state) => {
+    // signUp cases
+    builder.addCase(signUp.pending, (state) => {
       state.isLoading = true;
       state.error = "";
     });
 
-    builder.addCase(logIn.rejected, (state) => {
+    builder.addCase(signUp.rejected, (state) => {
       state.isLoading = false;
       state.error = "Couldn't save the user";
     });
 
-    builder.addCase(logIn.fulfilled, (state, action) => {
+    builder.addCase(signUp.fulfilled, (state, action) => {
       state.isLoading = false;
       state.profile = action.payload;
     });
