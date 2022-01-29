@@ -8,27 +8,27 @@ import { useAppDispatch } from "../hooks/redux";
 import { RootStackParamList } from "../navigators/RootNavigator";
 import Logo from "./../components/Logo";
 
+type FormValues = {
+  name: string;
+  avatar: "LUP" | "VALU";
+};
+
+const resolver: Resolver<FormValues> = async (values) => {
+  return {
+    values: values.name ? values : {},
+    errors: !values.name
+      ? {
+          name: {
+            type: "required",
+            message: "El nombre es requerido",
+          },
+        }
+      : {},
+  };
+};
+
 const OnBoardingProfileScreen: FC<NativeStackScreenProps<RootStackParamList>> = () => {
   const dispatch = useAppDispatch();
-
-  const resolver: Resolver<FormValues> = async (values) => {
-    return {
-      values: values.name ? values : {},
-      errors: !values.name
-        ? {
-            name: {
-              type: "required",
-              message: "El nombre es requerido",
-            },
-          }
-        : {},
-    };
-  };
-
-  type FormValues = {
-    name: string;
-    avatar: "LUP" | "VALU";
-  };
 
   const {
     control,
