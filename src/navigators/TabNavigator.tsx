@@ -47,7 +47,7 @@ const TabNavigator: FC = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          title: "Perfil",
+          title: "Mi Perfil",
           tabBarIcon: (props) => <Ionicons name="person" {...props} />,
         }}
       />

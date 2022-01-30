@@ -122,9 +122,7 @@ const OnBoardingProfileScreen: FC<NativeStackScreenProps<RootStackParamList>> = 
             )}
           />
         </FormControl>
-        <Button bg="buttonPrimary" onPress={handleSubmit(onSubmit)}>
-          Comenzar
-        </Button>
+        <Button onPress={handleSubmit(onSubmit)}>Comenzar</Button>
       </VStack>
     </VStack>
   );

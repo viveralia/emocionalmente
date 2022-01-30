@@ -4,7 +4,6 @@ export interface Colors extends Partial<Theme["colors"]> {
   brand: string;
   darkBackground: string;
   lightBackground: string;
-  buttonPrimary: string;
 }
 
 export const lightPalette: Colors = {
@@ -37,5 +36,4 @@ export const lightPalette: Colors = {
   brand: "#FDE047",
   darkBackground: "#F8FAFC",
   lightBackground: "#FFFFFF",
-  buttonPrimary: "#0891B2",
 };
