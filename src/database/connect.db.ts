@@ -1,5 +1,6 @@
 import { createConnection } from "typeorm";
 
+import { TodoModel } from "../models/todo.model";
 import { UserModel } from "../models/user.model";
 
 export const connectDatabase = () => {
@@ -7,7 +8,7 @@ export const connectDatabase = () => {
     type: "expo",
     database: "emocionalmente",
     driver: require("expo-sqlite"),
-    entities: [UserModel],
+    entities: [UserModel, TodoModel],
     synchronize: true,
   });
 };
