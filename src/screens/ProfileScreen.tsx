@@ -64,16 +64,18 @@ const ProfileScreen: FC = () => {
   const onSubmit = async (data: FormValues) => {
     if (profile!.avatar == data.avatar && profile!.name == data.name) return;
     dispatch(updateUserProfile({ avatar: data.avatar, name: data.name, id: profile!.id }));
-    toast.show({
-      title: "Información actualizada",
-      description: "Tu información ha sido actualizada exitosamente",
-      status: "success",
-    });
+
     if (error) {
       toast.show({
         title: "Ocurrió un error",
         description: "Intentalo de nuevo más tarde",
         status: "error",
+      });
+    } else {
+      toast.show({
+        title: "Información actualizada",
+        description: "Tu información ha sido actualizada exitosamente",
+        status: "success",
       });
     }
   };
