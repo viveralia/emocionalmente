@@ -9,6 +9,7 @@ import {
   Radio,
   VStack,
   ScrollView,
+  useToast,
 } from "native-base";
 import { FC } from "react";
 import { Resolver, Controller, useForm } from "react-hook-form";
@@ -41,8 +42,9 @@ const ProfileScreen: FC = () => {
   };
 
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
-  const { profile } = useAppSelector((state) => state.user);
+  const { profile, error } = useAppSelector((state) => state.user);
 
   const {
     control,
@@ -59,8 +61,21 @@ const ProfileScreen: FC = () => {
 
   const avatar = watch("avatar");
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
+    if (profile!.avatar == data.avatar && profile!.name == data.name) return;
     dispatch(updateUserProfile({ avatar: data.avatar, name: data.name, id: profile!.id }));
+    toast.show({
+      title: "Información actualizada",
+      description: "Tu información ha sido actualizada exitosamente",
+      status: "success",
+    });
+    if (error) {
+      toast.show({
+        title: "Ocurrió un error",
+        description: "Intentalo de nuevo más tarde",
+        status: "error",
+      });
+    }
   };
 
   const logout = () => {
@@ -69,9 +84,9 @@ const ProfileScreen: FC = () => {
 
   return (
     <ScrollView>
-      <VStack space="32" width="100%" background="darkBackground" paddingX={4} flex={1}>
+      <VStack space="24" width="100%" background="darkBackground" paddingX={4} flex={1}>
         <VStack space="4">
-          <Box marginTop={12} alignSelf="center">
+          <Box marginY={8} alignSelf="center">
             {avatar == "LUP" ? (
               <Box width={32} height={32} bg="warning.900">
                 LUP
@@ -133,16 +148,16 @@ const ProfileScreen: FC = () => {
             Cerrar sesión
           </Button>
         </VStack>
+
         <Box>
-          <Button
+          <Text
             fontWeight="600"
             alignSelf="center"
             onPress={_handlePressButtonAsync}
             color="lightText"
-            variant="unstyled"
           >
             © Yadira Peña
-          </Button>
+          </Text>
         </Box>
       </VStack>
     </ScrollView>
