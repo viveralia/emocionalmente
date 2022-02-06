@@ -34,7 +34,7 @@ const OnBoardingWelcomeScreen: FC<NativeStackScreenProps<RootStackParamList>> = 
           In mauris justo, tempor nec vehicula vel, scelerisque vel elit. Pellentesque habitant
           morbi tristique senectus.
         </Text>
-        <Button onPress={handlePress} marginTop={47} marginBottom={2} backgroundColor={"#0891B2"}>
+        <Button onPress={handlePress} marginTop={47} marginBottom={2}>
           Continuar
         </Button>
       </Box>
