@@ -13,9 +13,12 @@ import {
 } from "native-base";
 import { FC } from "react";
 import { Resolver, Controller, useForm } from "react-hook-form";
+import { Dimensions } from "react-native";
 
 import { updateUserProfile, logOut } from "../actions/user.actions";
+import { profileCharacters } from "../constants/emotions";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { getProperSize } from "../utils/size";
 
 type FormValues = {
   name: string;
@@ -35,6 +38,9 @@ const resolver: Resolver<FormValues> = async (values) => {
       : {},
   };
 };
+
+const SCREEN_HEIGHT = Dimensions.get("screen").height;
+const avatarSize = getProperSize(SCREEN_HEIGHT, 0.2, 180);
 
 const ProfileScreen: FC = () => {
   const _handlePressButtonAsync = async () => {
@@ -70,12 +76,14 @@ const ProfileScreen: FC = () => {
         title: "Ocurrió un error",
         description: "Intentalo de nuevo más tarde",
         status: "error",
+        mx: "4",
       });
     } else {
       toast.show({
         title: "Información actualizada",
         description: "Tu información ha sido actualizada exitosamente",
         status: "success",
+        mx: "4",
       });
     }
   };
@@ -84,20 +92,14 @@ const ProfileScreen: FC = () => {
     dispatch(logOut());
   };
 
+  const { EmotionSvg } = profileCharacters[avatar]!;
+
   return (
     <ScrollView>
-      <VStack space="24" width="100%" background="darkBackground" paddingX={4} flex={1}>
+      <VStack paddingX={4} flex={1} justifyContent="space-between" minH="100%">
         <VStack space="4">
           <Box marginY={8} alignSelf="center">
-            {avatar == "LUP" ? (
-              <Box width={32} height={32} bg="warning.900">
-                LUP
-              </Box>
-            ) : (
-              <Box width={32} height={32} bg="violet.500">
-                VALU
-              </Box>
-            )}
+            <EmotionSvg width={avatarSize} height={avatarSize} />
           </Box>
           <FormControl isInvalid={"name" in errors}>
             <FormControl.Label>
@@ -151,16 +153,15 @@ const ProfileScreen: FC = () => {
           </Button>
         </VStack>
 
-        <Box>
-          <Text
-            fontWeight="600"
-            alignSelf="center"
-            onPress={_handlePressButtonAsync}
-            color="lightText"
-          >
-            © Yadira Peña
-          </Text>
-        </Box>
+        <Text
+          fontWeight="600"
+          alignSelf="center"
+          onPress={_handlePressButtonAsync}
+          color="lightText"
+          my="4"
+        >
+          © Yadira Peña
+        </Text>
       </VStack>
     </ScrollView>
   );

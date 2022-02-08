@@ -9,4 +9,9 @@ export const components = {
       size: "lg",
     },
   },
+  Input: {
+    defaultProps: {
+      size: "lg",
+    },
+  },
 };
