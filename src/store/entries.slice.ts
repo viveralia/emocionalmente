@@ -1,16 +1,19 @@
 import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 
-import { createEntry, getEntries, getEntriesByDate } from "../actions/entry.actions";
+import { createEntries, getEntries, getEntriesByDate } from "../actions/entries.actions";
 import { EntryModel } from "../models/entry.model";
 
-interface EntrySliceInitialState {
+interface EntriesSliceInitialState {
   isLoading: boolean;
   error: string;
   entries: EntryModel[];
 }
 
-const entrySlice = createSlice<EntrySliceInitialState, SliceCaseReducers<EntrySliceInitialState>>({
-  name: "entry",
+const entriesSlice = createSlice<
+  EntriesSliceInitialState,
+  SliceCaseReducers<EntriesSliceInitialState>
+>({
+  name: "entries",
   initialState: {
     isLoading: false,
     error: "",
@@ -18,19 +21,19 @@ const entrySlice = createSlice<EntrySliceInitialState, SliceCaseReducers<EntrySl
   },
   reducers: {},
   extraReducers: (builder) => {
-    // createEntry cases
-    builder.addCase(createEntry.pending, (state) => {
+    // createEntries cases
+    builder.addCase(createEntries.pending, (state) => {
       state.isLoading = true;
       state.error = "";
     });
 
-    builder.addCase(createEntry.fulfilled, (state, action) => {
+    builder.addCase(createEntries.fulfilled, (state, action) => {
       state.isLoading = false;
       state.entries.push(action.payload);
       state.error = "";
     });
 
-    builder.addCase(createEntry.rejected, (state) => {
+    builder.addCase(createEntries.rejected, (state) => {
       state.isLoading = false;
       state.error = "Couldn't create the entry";
     });
@@ -68,9 +71,9 @@ const entrySlice = createSlice<EntrySliceInitialState, SliceCaseReducers<EntrySl
 
     builder.addCase(getEntriesByDate.rejected, (state) => {
       state.isLoading = false;
-      state.error = "Couldn't get entry by date";
+      state.error = "Couldn't get entries by date";
     });
   },
 });
 
-export default entrySlice.reducer;
+export default entriesSlice.reducer;

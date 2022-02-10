@@ -4,12 +4,12 @@ import { addDays, endOfToday } from "date-fns/esm";
 import { Box, Text, Heading, ScrollView, Button } from "native-base";
 import { FC, Fragment, useEffect } from "react";
 
-import { getEntriesByDate } from "../actions/entry.actions";
+import { getEntriesByDate } from "../actions/entries.actions";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { EntriesStackParamList } from "../navigators/EntriesNavigator";
 
 const EntriesScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({ navigation }) => {
-  const { entries } = useAppSelector((state) => state.entry);
+  const { entries } = useAppSelector((state) => state.entries);
 
   const dispatch = useAppDispatch();
 

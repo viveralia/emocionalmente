@@ -1,5 +1,4 @@
-// Crear una entrada
-export class CreateEntryDto {
+export class CreateEntriesDto {
   emotion: string;
   description: string;
   bodyExpression: string;

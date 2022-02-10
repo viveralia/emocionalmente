@@ -1,17 +1,17 @@
 import { format } from "date-fns";
 import { Between, Connection, Repository } from "typeorm";
 
-import { CreateEntryDto } from "../dtos/entry.dto";
+import { CreateEntriesDto } from "../dtos/entries.dto";
 import { EntryModel } from "../models/entry.model";
 
-export class EntryRepository {
+export class EntriesRepository {
   private repository: Repository<EntryModel>;
 
   constructor(connection: Connection) {
     this.repository = connection.getRepository(EntryModel);
   }
 
-  public createEntry(payload: CreateEntryDto) {
+  public createEntries(payload: CreateEntriesDto) {
     const newEntry = this.repository.create(payload);
     return this.repository.save(newEntry);
   }

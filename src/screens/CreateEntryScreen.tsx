@@ -3,8 +3,8 @@ import { Box, Heading, Button, ScrollView } from "native-base";
 import { FC, useState } from "react";
 import { TextInput } from "react-native";
 
-import { createEntry } from "../actions/entry.actions";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { createEntries } from "../actions/entries.actions";
+import { useAppDispatch } from "../hooks/redux";
 import { EntriesStackParamList } from "../navigators/EntriesNavigator";
 
 const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () => {
@@ -15,7 +15,7 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
   const dispatch = useAppDispatch();
 
   const handlePress = () => {
-    dispatch(createEntry({ emotion, description, bodyExpression }));
+    dispatch(createEntries({ emotion, description, bodyExpression }));
   };
 
   return (
