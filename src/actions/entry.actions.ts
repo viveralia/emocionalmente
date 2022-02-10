@@ -14,8 +14,21 @@ export const createEntry = createAsyncThunk<EntryModel, CreateEntryDto>(
   }
 );
 
-export const getEntries = createAsyncThunk("todos/getEntries", () => {
+export const getEntries = createAsyncThunk("entry/getEntries", () => {
   const connection = getConnection();
   const entryRepository = new EntryRepository(connection);
   return entryRepository.getEntries();
 });
+
+interface GetEntriesByDateParams {
+  initialDate: Date;
+  finalDate: Date;
+}
+export const getEntriesByDate = createAsyncThunk(
+  "entry/getEntriesByDate",
+  ({ initialDate, finalDate }: GetEntriesByDateParams) => {
+    const connection = getConnection();
+    const entryRepository = new EntryRepository(connection);
+    return entryRepository.getEntriesByDate(initialDate, finalDate);
+  }
+);

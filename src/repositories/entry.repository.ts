@@ -1,4 +1,5 @@
-import { Connection, Repository } from "typeorm";
+import { format } from "date-fns";
+import { Between, Connection, Repository } from "typeorm";
 
 import { CreateEntryDto } from "../dtos/entry.dto";
 import { EntryModel } from "../models/entry.model";
@@ -18,5 +19,13 @@ export class EntryRepository {
     return this.repository.find();
   }
 
-  // Obtener entradas por día
+  public getEntriesByDate(initialDate: Date, finalDate: Date) {
+    const formattedInitialDate = format(initialDate, "yyyy-MM-dd");
+    const formattedFinalDate = format(finalDate, "yyyy-MM-dd");
+    return this.repository.find({
+      where: {
+        createdAt: Between(formattedInitialDate, formattedFinalDate),
+      },
+    });
+  }
 }

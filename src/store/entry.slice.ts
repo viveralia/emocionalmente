@@ -1,6 +1,6 @@
 import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 
-import { createEntry, getEntries } from "../actions/entry.actions";
+import { createEntry, getEntries, getEntriesByDate } from "../actions/entry.actions";
 import { EntryModel } from "../models/entry.model";
 
 interface EntrySliceInitialState {
@@ -55,6 +55,21 @@ const entrySlice = createSlice<EntrySliceInitialState, SliceCaseReducers<EntrySl
     });
 
     // getEntriesByDate cases
+    builder.addCase(getEntriesByDate.pending, (state) => {
+      state.isLoading = true;
+      state.error = "";
+    });
+
+    builder.addCase(getEntriesByDate.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = "";
+      state.entries = action.payload;
+    });
+
+    builder.addCase(getEntriesByDate.rejected, (state) => {
+      state.isLoading = false;
+      state.error = "Couldn't get entry by date";
+    });
   },
 });
 

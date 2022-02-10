@@ -10,5 +10,6 @@ export const connectDatabase = () => {
     driver: require("expo-sqlite"),
     entities: [UserModel, EntryModel],
     synchronize: true,
+    logging: true,
   });
 };
