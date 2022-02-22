@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { Heading, Text, Button, ScrollView, FormControl, Input, FlatList } from "native-base";
-import { FC } from "react";
+import { Heading, Text, Button, ScrollView, FormControl, Input, FlatList, Box } from "native-base";
+import { FC, useState } from "react";
 import { useForm, Controller, Resolver } from "react-hook-form";
 import { TouchableOpacity } from "react-native";
 
@@ -12,11 +12,12 @@ import { getEmotionsByAvatar } from "../utils/emotions";
 const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () => {
   const dispatch = useAppDispatch();
   const { profile } = useAppSelector((state) => state.user);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const onSubmit = (data: FormValues) => {
     dispatch(
       createEntries({
-        emotion: "feliz",
+        emotion: data.emotion,
         description: data.description,
         bodyExpression: data.bodyExpression,
       })
@@ -61,20 +62,31 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
     },
   });
 
+  // eslint-disable-next-line no-console
+  console.log(selectedId);
   return (
-    <ScrollView flex={1}>
+    <ScrollView>
       <Text mb="2">Hoy, 8 de enero de 2022</Text>
       <Heading mb="4">¿Cómo me siento?</Heading>
       {/* Emotion */}
       <FlatList
         numColumns={4}
+        mb="6"
         data={getEmotionsByAvatar(profile!.avatar)}
-        renderItem={({ item: { EmotionSvg, name } }) => (
+        renderItem={({ item: { EmotionSvg, name, id } }) => (
           <TouchableOpacity>
-            <EmotionSvg width="80" height="80" />
+            <Box
+              // eslint-disable-next-line react-native/no-inline-styles
+              style={id == selectedId ? { backgroundColor: "#FBBF24" } : null}
+              borderRadius={"full"}
+            >
+              <EmotionSvg width="80" height="80" onPress={() => setSelectedId(id)} />
+            </Box>
             <Text>{name}</Text>
           </TouchableOpacity>
         )}
+        extraData={selectedId}
+        keyExtractor={(item) => item.id.toString()}
       />
       {/* Description */}
       <FormControl isInvalid={"description" in errors}>
@@ -120,7 +132,7 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
         />
         <FormControl.ErrorMessage>{errors.bodyExpression?.message}</FormControl.ErrorMessage>
       </FormControl>
-      <Button mb="4" mx={4} onPress={handleSubmit(onSubmit)}>
+      <Button my={6} mx={4} onPress={handleSubmit(onSubmit)}>
         Guardar
       </Button>
     </ScrollView>
