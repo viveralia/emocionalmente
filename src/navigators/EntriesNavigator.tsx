@@ -34,7 +34,6 @@ const EntriesNavigator: FC<NativeStackScreenProps<EntriesStackParamList>> = ({ n
         name="CreateEntry"
         component={CreateEntryScreen}
         options={{
-          presentation: "formSheet",
           title: "",
           headerLeft: () => (
             <AntDesign name="close" size={24} color="black" onPress={handlePress} />
