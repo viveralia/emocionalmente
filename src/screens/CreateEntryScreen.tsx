@@ -67,7 +67,11 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
       <Box>
         {" "}
         <Text mb="2">Hoy, 8 de enero de 2022</Text>
-        <Heading mb="4">¿Cómo me siento?</Heading>
+        <Box flex={1} flexDirection={"row"}>
+          <Heading mb="4" marginRight={2}>
+            ¿Cómo me siento?
+          </Heading>
+        </Box>
       </Box>
     );
   };
@@ -135,15 +139,20 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
       data={getEmotionsByAvatar(profile!.avatar)}
       renderItem={({ item: { EmotionSvg, name, id, description } }) => (
         <Popover
-          trigger={(triggerProps) => {
+          trigger={({ onPress: openPopOver, ...triggerProps }) => {
             return (
-              <TouchableOpacity {...triggerProps}>
+              <TouchableOpacity
+                {...triggerProps}
+                onPress={() => setSelectedId(id)}
+                onLongPress={openPopOver}
+                activeOpacity={0.5}
+              >
                 <Box
                   // eslint-disable-next-line react-native/no-inline-styles
                   style={id == selectedId ? { backgroundColor: "#FBBF24" } : null}
                   borderRadius={"full"}
                 >
-                  <EmotionSvg width="80" height="80" onPress={() => setSelectedId(id)} />
+                  <EmotionSvg width="80" height="80" />
                 </Box>
                 <Text textAlign={"center"} fontSize="xs">
                   {name ? name : "emoción"}
