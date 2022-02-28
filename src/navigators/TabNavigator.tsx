@@ -32,6 +32,7 @@ const TabNavigator: FC = () => {
         component={EntriesNavigator}
         options={{
           title: "Entradas",
+          headerShown: false,
           tabBarIcon: (props) => <Ionicons name="book" {...props} />,
         }}
       />

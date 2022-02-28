@@ -7,7 +7,9 @@ import { medium } from "../themes/fonts";
 
 export type EntriesStackParamList = {
   EntriesList: undefined;
-  CreateEntry: undefined;
+  CreateEntry: {
+    date: Date;
+  };
 };
 
 const Stack = createNativeStackNavigator<EntriesStackParamList>();
