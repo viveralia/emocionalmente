@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable react-native/no-inline-styles */
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import {
@@ -5,7 +7,7 @@ import {
   Text,
   Button,
   FormControl,
-  Input,
+  TextArea,
   FlatList,
   Box,
   Popover,
@@ -105,7 +107,7 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
 
   const getFooter = () => {
     return (
-      <Box>
+      <Box marginTop={8}>
         {/* Description */}
         <FormControl isInvalid={"description" in errors}>
           <FormControl.Label>
@@ -116,21 +118,21 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
             control={control}
             name="description"
             render={({ field: { onChange, onBlur, value } }) => (
-              <Input
+              <TextArea
                 borderColor="white"
                 bg="white"
                 placeholder="Acciones o pensamientos que noté."
                 value={value}
+                fontSize="14px"
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
-                height="100"
               />
             )}
           />
           <FormControl.ErrorMessage>{errors.description?.message}</FormControl.ErrorMessage>
         </FormControl>
         {/* Body Expression */}
-        <FormControl isInvalid={"bodyExpression" in errors}>
+        <FormControl isInvalid={"bodyExpression" in errors} marginTop={4}>
           <FormControl.Label>
             <Heading size="xs">¿Cómo lo expresa mi cuerpo?</Heading>
           </FormControl.Label>
@@ -138,11 +140,12 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
             control={control}
             name="bodyExpression"
             render={({ field: { onChange, onBlur, value } }) => (
-              <Input
+              <TextArea
                 borderColor="white"
                 bg="white"
                 placeholder="La sensación física que estoy experimentando."
                 value={value}
+                fontSize="14px"
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
               />
@@ -150,19 +153,18 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
           />
           <FormControl.ErrorMessage>{errors.bodyExpression?.message}</FormControl.ErrorMessage>
         </FormControl>
-        <Button my={6} mx={4} onPress={handleSubmit(onSubmit)}>
+        <Button my={6} onPress={handleSubmit(onSubmit)}>
           Guardar
         </Button>
       </Box>
     );
   };
 
-  // eslint-disable-next-line no-console
-  // console.log(selectedId);
   return (
     <FlatList
+      mx={4}
       numColumns={4}
-      mb="6"
+      columnWrapperStyle={{ justifyContent: "space-between" }}
       data={getEmotionsByAvatar(profile!.avatar)}
       renderItem={({ item: { EmotionSvg, name, id, description } }) => (
         <Popover
@@ -175,23 +177,24 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
                 activeOpacity={0.5}
               >
                 <Box
-                  // eslint-disable-next-line react-native/no-inline-styles
                   style={id == selectedId ? { backgroundColor: "#FBBF24" } : null}
                   borderRadius={"full"}
                 >
                   <EmotionSvg width="80" height="80" />
                 </Box>
-                <Text textAlign={"center"} fontSize="xs">
+                <Text textAlign={"center"} fontSize="xs" textTransform={"capitalize"}>
                   {name ? name : "emoción"}
                 </Text>
               </TouchableOpacity>
             );
           }}
         >
-          <Popover.Content accessibilityLabel="Delete Customerd" w="56">
+          <Popover.Content accessibilityLabel="Descripción de emoción" w="56">
             <Popover.Arrow />
             <Popover.CloseButton />
-            <Popover.Header>{name ? name : "emoción"}</Popover.Header>
+            <Popover.Header>
+              {name ? name.charAt(0).toUpperCase() + name.slice(1) : "Emoción"}
+            </Popover.Header>
             <Popover.Body>
               {description
                 ? description

@@ -1,4 +1,4 @@
-import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { FC } from "react";
@@ -36,7 +36,7 @@ const EntriesNavigator: FC<NativeStackScreenProps<EntriesStackParamList>> = ({ n
         options={{
           title: "",
           headerLeft: () => (
-            <AntDesign name="close" size={24} color="black" onPress={handlePress} />
+            <Ionicons name="close-outline" size={32} color="black" onPress={handlePress} />
           ),
         }}
       />
