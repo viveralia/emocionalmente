@@ -1,5 +1,16 @@
+import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { Heading, Text, Button, FormControl, Input, FlatList, Box, Popover } from "native-base";
+import {
+  Heading,
+  Text,
+  Button,
+  FormControl,
+  Input,
+  FlatList,
+  Box,
+  Popover,
+  IconButton,
+} from "native-base";
 import { FC, useState } from "react";
 import { useForm, Controller, Resolver } from "react-hook-form";
 import { TouchableOpacity } from "react-native";
@@ -67,10 +78,26 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
       <Box>
         {" "}
         <Text mb="2">Hoy, 8 de enero de 2022</Text>
-        <Box flex={1} flexDirection={"row"}>
-          <Heading mb="4" marginRight={2}>
-            ¿Cómo me siento?
-          </Heading>
+        <Box flex={1} flexDirection={"row"} alignItems={"center"}>
+          <Heading>¿Cómo me siento?</Heading>
+          <Popover
+            trigger={({ onPress: openPopOver, ...triggerProps }) => {
+              return (
+                <IconButton {...triggerProps} onPress={openPopOver}>
+                  <Ionicons name="ios-help-circle-outline" size={24} color="#0891B2" />
+                </IconButton>
+              );
+            }}
+          >
+            <Popover.Content accessibilityLabel="Instrucciones" w="56">
+              <Popover.Arrow />
+              <Popover.CloseButton />
+              <Popover.Header>Instrucciones</Popover.Header>
+              <Popover.Body>
+                {"Mantén presionada una emoción para consultar su descripción"}
+              </Popover.Body>
+            </Popover.Content>
+          </Popover>
         </Box>
       </Box>
     );
