@@ -2,6 +2,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { format, formatRelative } from "date-fns";
+import { es } from "date-fns/locale";
 import {
   Heading,
   Text,
@@ -14,52 +16,38 @@ import {
   IconButton,
 } from "native-base";
 import { FC, useState } from "react";
-import { useForm, Controller, Resolver } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { TouchableOpacity } from "react-native";
 
 import { createEntries } from "../actions/entries.actions";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { EntriesStackParamList } from "../navigators/EntriesNavigator";
+import { esShortRelativeLocale } from "../utils/dates";
 import { getEmotionsByAvatar } from "../utils/emotions";
 
-const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () => {
+type FormValues = {
+  description: string;
+  bodyExpression: string;
+};
+
+const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
+  navigation,
+  route,
+}) => {
   const dispatch = useAppDispatch();
   const { profile } = useAppSelector((state) => state.user);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
+  const { date } = route.params as EntriesStackParamList["CreateEntry"];
 
   const onSubmit = (data: FormValues) => {
     dispatch(
       createEntries({
-        emotion: data.emotion,
+        emotion: selectedEmotion,
         description: data.description,
         bodyExpression: data.bodyExpression,
       })
     );
-  };
-
-  type FormValues = {
-    description: string;
-    bodyExpression: string;
-    emotion: string;
-  };
-
-  const resolver: Resolver<FormValues> = async (values) => {
-    return {
-      values: values.description && values.bodyExpression ? values : {},
-      errors:
-        !values.description || !values.bodyExpression
-          ? {
-              description: {
-                type: "required",
-                message: "Una descripción es requerida",
-              },
-              bodyExpression: {
-                type: "required",
-                message: "La sensación fisica es requerida",
-              },
-            }
-          : {},
-    };
+    navigation.goBack();
   };
 
   const {
@@ -67,9 +55,7 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({
-    resolver,
     defaultValues: {
-      emotion: "feliz",
       description: "",
       bodyExpression: "",
     },
@@ -77,9 +63,12 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
 
   const getHeader = () => {
     return (
-      <Box>
-        {" "}
-        <Text mb="2">Hoy, 8 de enero de 2022</Text>
+      <Box mt={2}>
+        <Text mb="2">
+          {formatRelative(date, new Date(), { locale: esShortRelativeLocale })}
+          {", "}
+          {format(date, "d 'de' MMM 'de' yyyy", { locale: es })}
+        </Text>
         <Box flex={1} flexDirection={"row"} alignItems={"center"}>
           <Heading>¿Cómo me siento?</Heading>
           <Popover
@@ -117,6 +106,7 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
           <Controller
             control={control}
             name="description"
+            rules={{ required: { value: true, message: "Una descripción es requerida" } }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextArea
                 borderColor="white"
@@ -139,6 +129,7 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
           <Controller
             control={control}
             name="bodyExpression"
+            rules={{ required: { value: true, message: "Este campo es requerido" } }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextArea
                 borderColor="white"
@@ -162,24 +153,25 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
 
   return (
     <FlatList
-      mx={4}
+      paddingX={4}
       numColumns={4}
       columnWrapperStyle={{ justifyContent: "space-between" }}
       data={getEmotionsByAvatar(profile!.avatar)}
-      renderItem={({ item: { EmotionSvg, name, id, description } }) => (
+      renderItem={({ item: { EmotionSvg, name, description } }) => (
         <Popover
           trigger={({ onPress: openPopOver, ...triggerProps }) => {
             return (
               <TouchableOpacity
                 {...triggerProps}
-                onPress={() => setSelectedId(id)}
+                onPress={() => setSelectedEmotion(name)}
                 onLongPress={openPopOver}
                 activeOpacity={0.5}
               >
                 <Box
-                  style={id == selectedId ? { backgroundColor: "#FBBF24" } : null}
+                  style={name == selectedEmotion ? { backgroundColor: "#FBBF24" } : null}
                   borderRadius={"full"}
                 >
+                  {/* TODO: Hacerlo responsive */}
                   <EmotionSvg width="80" height="80" />
                 </Box>
                 <Text textAlign={"center"} fontSize="xs" textTransform={"capitalize"}>
@@ -203,7 +195,6 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () 
           </Popover.Content>
         </Popover>
       )}
-      extraData={selectedId}
       keyExtractor={(item) => item.id.toString()}
       ListHeaderComponent={getHeader}
       ListFooterComponent={getFooter}
