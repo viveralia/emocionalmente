@@ -34,9 +34,10 @@ const EntriesNavigator: FC<NativeStackScreenProps<EntriesStackParamList>> = ({ n
         name="CreateEntry"
         component={CreateEntryScreen}
         options={{
+          headerShadowVisible: false,
           title: "",
           headerLeft: () => (
-            <Ionicons name="close-outline" size={32} color="black" onPress={handlePress} />
+            <Ionicons name="arrow-back-outline" size={24} color="black" onPress={handlePress} />
           ),
         }}
       />
