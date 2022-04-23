@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { format, formatRelative } from "date-fns";
+import { format, formatRelative, isSameDay } from "date-fns";
 import { es } from "date-fns/locale";
 import {
   Heading,
@@ -44,6 +44,8 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
   const dispatch = useAppDispatch();
   const { profile } = useAppSelector((state) => state.user);
   const { date } = route.params as EntriesStackParamList["CreateEntry"];
+  const today = new Date();
+  const isToday = isSameDay(date, today);
 
   const onSubmit = (data: FormValues) => {
     dispatch(
@@ -51,6 +53,7 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
         emotion: data.emotion,
         description: data.description,
         bodyExpression: data.bodyExpression,
+        // date:
       })
     );
     navigation.goBack();
@@ -72,12 +75,15 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
     return (
       <Box mt={2}>
         <Text mb="2">
-          {formatRelative(date, new Date(), { locale: esShortRelativeLocale })}
+          {formatRelative(date, new Date(), { locale: esShortRelativeLocale })
+            .charAt(0)
+            .toUpperCase()}
+          {formatRelative(date, new Date(), { locale: esShortRelativeLocale }).slice(1)}
           {", "}
           {format(date, "d 'de' MMM 'de' yyyy", { locale: es })}
         </Text>
         <Box flex={1} flexDirection={"row"} alignItems={"center"}>
-          <Heading>¿Cómo me siento?</Heading>
+          <Heading>{isToday ? "¿Cómo me siento?" : "¿Cómo me sentí?"}</Heading>
           <Popover
             trigger={({ onPress: openPopOver, ...triggerProps }) => {
               return (
@@ -138,7 +144,9 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
         {/* Body Expression */}
         <FormControl isInvalid={"bodyExpression" in errors} marginTop={4}>
           <FormControl.Label>
-            <Heading size="xs">¿Cómo lo expresa mi cuerpo?</Heading>
+            <Heading size="xs">
+              {isToday ? "¿Cómo lo expresa mi cuerpo?" : "¿Cómo lo expresó mi cuerpo?"}
+            </Heading>
           </FormControl.Label>
           <Controller
             control={control}
@@ -148,7 +156,11 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
               <TextArea
                 borderColor="white"
                 bg="white"
-                placeholder="La sensación física que estoy experimentando."
+                placeholder={
+                  isToday
+                    ? "La sensación física que estoy experimentando."
+                    : "La sensación física que estoy experimenté."
+                }
                 value={value}
                 fontSize="14px"
                 onBlur={onBlur}
