@@ -1,41 +1,23 @@
-/* eslint-disable no-console */
 /* eslint-disable react-native/no-inline-styles */
-import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { format, formatRelative, isSameDay } from "date-fns";
-import { es } from "date-fns/locale";
-import {
-  Heading,
-  Text,
-  Button,
-  FormControl,
-  TextArea,
-  FlatList,
-  Box,
-  Popover,
-  IconButton,
-  KeyboardAvoidingView,
-} from "native-base";
+import { isSameDay } from "date-fns";
+import { FormControl, FlatList, KeyboardAvoidingView } from "native-base";
 import { FC } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { TouchableOpacity } from "react-native";
-import { Dimensions } from "react-native";
 
 import { createEntries } from "../actions/entries.actions";
+import EmotionPicker from "../components/EmotionPicker";
+import EntryFooter from "../components/EntryFooter";
+import EntryHeader from "../components/EntryHeader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { EntriesStackParamList } from "../navigators/EntriesNavigator";
-import { esShortRelativeLocale } from "../utils/dates";
 import { getEmotionsByAvatar } from "../utils/emotions";
-import { getProperSize } from "../utils/size";
 
 type FormValues = {
   description: string;
   bodyExpression: string;
   emotion: string | null;
 };
-
-const SCREEN_HEIGHT = Dimensions.get("screen").height;
-const avatarSize = getProperSize(SCREEN_HEIGHT, 0.1, 80);
 
 const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
   navigation,
@@ -53,7 +35,6 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
         emotion: data.emotion,
         description: data.description,
         bodyExpression: data.bodyExpression,
-        // date:
       })
     );
     navigation.goBack();
@@ -70,112 +51,6 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
       bodyExpression: "",
     },
   });
-
-  const getHeader = () => {
-    return (
-      <Box mt={2}>
-        <Text mb="2">
-          {formatRelative(date, new Date(), { locale: esShortRelativeLocale })
-            .charAt(0)
-            .toUpperCase()}
-          {formatRelative(date, new Date(), { locale: esShortRelativeLocale }).slice(1)}
-          {", "}
-          {format(date, "d 'de' MMM 'de' yyyy", { locale: es })}
-        </Text>
-        <Box flex={1} flexDirection={"row"} alignItems={"center"}>
-          <Heading>{isToday ? "¿Cómo me siento?" : "¿Cómo me sentí?"}</Heading>
-          <Popover
-            trigger={({ onPress: openPopOver, ...triggerProps }) => {
-              return (
-                <IconButton {...triggerProps} onPress={openPopOver}>
-                  <Ionicons name="ios-help-circle-outline" size={24} color="#0891B2" />
-                </IconButton>
-              );
-            }}
-          >
-            <Popover.Content accessibilityLabel="Instrucciones" w="56">
-              <Popover.Arrow />
-              <Popover.CloseButton />
-              <Popover.Header>Instrucciones</Popover.Header>
-              <Popover.Body>
-                {"Mantén presionada una emoción para consultar su descripción"}
-              </Popover.Body>
-            </Popover.Content>
-          </Popover>
-        </Box>
-      </Box>
-    );
-  };
-
-  const getFooter = () => {
-    return (
-      <Box marginTop={0}>
-        <Box mb={6}>
-          <FormControl isInvalid={"description" in errors}>
-            <FormControl.ErrorMessage>{errors.emotion?.message}</FormControl.ErrorMessage>
-          </FormControl>
-        </Box>
-
-        {/* Description */}
-        <FormControl isInvalid={"description" in errors}>
-          <FormControl.Label>
-            <Heading size="xs">¿Qué me hizo sentir así?</Heading>
-          </FormControl.Label>
-
-          <Controller
-            control={control}
-            name="description"
-            rules={{ required: { value: true, message: "Una descripción es requerida" } }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextArea
-                borderColor="white"
-                bg="white"
-                placeholder="Acciones o pensamientos que noté."
-                value={value}
-                fontSize="14px"
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-              />
-            )}
-          />
-          <FormControl.ErrorMessage>{errors.description?.message}</FormControl.ErrorMessage>
-        </FormControl>
-
-        {/* Body Expression */}
-        <FormControl isInvalid={"bodyExpression" in errors} marginTop={4}>
-          <FormControl.Label>
-            <Heading size="xs">
-              {isToday ? "¿Cómo lo expresa mi cuerpo?" : "¿Cómo lo expresó mi cuerpo?"}
-            </Heading>
-          </FormControl.Label>
-          <Controller
-            control={control}
-            name="bodyExpression"
-            rules={{ required: { value: true, message: "Este campo es requerido" } }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextArea
-                borderColor="white"
-                bg="white"
-                placeholder={
-                  isToday
-                    ? "La sensación física que estoy experimentando."
-                    : "La sensación física que estoy experimenté."
-                }
-                value={value}
-                fontSize="14px"
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-              />
-            )}
-          />
-          <FormControl.ErrorMessage>{errors.bodyExpression?.message}</FormControl.ErrorMessage>
-        </FormControl>
-        <Button my={6} onPress={handleSubmit(onSubmit)}>
-          Guardar
-        </Button>
-      </Box>
-    );
-  };
 
   return (
     <KeyboardAvoidingView
@@ -197,50 +72,28 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
               numColumns={4}
               columnWrapperStyle={{ justifyContent: "space-between" }}
               data={getEmotionsByAvatar(profile!.avatar)}
-              renderItem={({ item: { EmotionSvg, name, description } }) => (
-                <Popover
-                  trigger={({ onPress: openPopOver, ...triggerProps }) => {
-                    return (
-                      <TouchableOpacity
-                        {...triggerProps}
-                        onPress={() => onChange(name)}
-                        onLongPress={openPopOver}
-                        activeOpacity={0.5}
-                      >
-                        <Box
-                          style={name == value ? { backgroundColor: "#FBBF24" } : null}
-                          borderRadius={"full"}
-                        >
-                          <EmotionSvg width={avatarSize} height={avatarSize} />
-                        </Box>
-                        <Text textAlign={"center"} fontSize="xs" textTransform={"capitalize"}>
-                          {name ? name : "emoción"}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  }}
-                >
-                  <Popover.Content accessibilityLabel="Descripción de emoción" w="56">
-                    <Popover.Arrow />
-                    <Popover.CloseButton />
-                    <Popover.Header>
-                      {name ? name.charAt(0).toUpperCase() + name.slice(1) : "Emoción"}
-                    </Popover.Header>
-                    <Popover.Body>
-                      {description
-                        ? description
-                        : "Descripción de la emoción. Donec in blandit neque. Duis congue placerat metus id porttitor. Praesent a purus eu nunc efficitur congue nec non."}
-                    </Popover.Body>
-                  </Popover.Content>
-                </Popover>
-              )}
+              renderItem={({ item: { EmotionSvg, name, description } }) =>
+                EmotionPicker({
+                  EmotionSvg,
+                  description,
+                  name,
+                  onPress: () => onChange(name),
+                  value,
+                })
+              }
               keyExtractor={(item) => item.id.toString()}
-              ListHeaderComponent={getHeader}
-              ListFooterComponent={getFooter}
+              ListHeaderComponent={() => EntryHeader({ date, isToday })}
+              ListFooterComponent={() =>
+                EntryFooter({
+                  control,
+                  errors,
+                  onPress: handleSubmit(onSubmit),
+                  isToday,
+                })
+              }
             />
           )}
         />
-        <FormControl.ErrorMessage>{errors.emotion?.message}</FormControl.ErrorMessage>
       </FormControl>
     </KeyboardAvoidingView>
   );
