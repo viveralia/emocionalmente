@@ -1,4 +1,6 @@
+import { Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { FC } from "react";
 
 import CreateEntryScreen from "../screens/CreateEntryScreen";
@@ -14,7 +16,11 @@ export type EntriesStackParamList = {
 
 const Stack = createNativeStackNavigator<EntriesStackParamList>();
 
-const EntriesNavigator: FC = () => {
+const EntriesNavigator: FC<NativeStackScreenProps<EntriesStackParamList>> = ({ navigation }) => {
+  const handlePress = () => {
+    navigation.goBack();
+  };
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -27,7 +33,13 @@ const EntriesNavigator: FC = () => {
       <Stack.Screen
         name="CreateEntry"
         component={CreateEntryScreen}
-        options={{ presentation: "formSheet" }}
+        options={{
+          headerShadowVisible: false,
+          title: "",
+          headerLeft: () => (
+            <Ionicons name="arrow-back-outline" size={24} color="black" onPress={handlePress} />
+          ),
+        }}
       />
     </Stack.Navigator>
   );

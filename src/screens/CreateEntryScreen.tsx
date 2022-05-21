@@ -1,45 +1,101 @@
+/* eslint-disable react-native/no-inline-styles */
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { Box, Heading, Button, ScrollView } from "native-base";
-import { FC, useState } from "react";
-import { TextInput } from "react-native";
+import { isSameDay } from "date-fns";
+import { FormControl, FlatList, KeyboardAvoidingView } from "native-base";
+import { FC } from "react";
+import { useForm, Controller } from "react-hook-form";
 
 import { createEntries } from "../actions/entries.actions";
-import { useAppDispatch } from "../hooks/redux";
+import EmotionPicker from "../components/EmotionPicker";
+import EntryFooter from "../components/EntryFooter";
+import EntryHeader from "../components/EntryHeader";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { EntriesStackParamList } from "../navigators/EntriesNavigator";
+import { getEmotionsByAvatar } from "../utils/emotions";
 
-const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = () => {
-  const [emotion, setEmotion] = useState("");
-  const [description, setDescription] = useState("");
-  const [bodyExpression, setBodyExpression] = useState("");
+type FormValues = {
+  description: string;
+  bodyExpression: string;
+  emotion: string | null;
+};
 
+const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
+  navigation,
+  route,
+}) => {
   const dispatch = useAppDispatch();
+  const { profile } = useAppSelector((state) => state.user);
+  const { date } = route.params as EntriesStackParamList["CreateEntry"];
+  const today = new Date();
+  const isToday = isSameDay(date, today);
 
-  const handlePress = () => {
-    dispatch(createEntries({ emotion, description, bodyExpression }));
+  const onSubmit = (data: FormValues) => {
+    dispatch(
+      createEntries({
+        emotion: data.emotion,
+        description: data.description,
+        bodyExpression: data.bodyExpression,
+      })
+    );
+    navigation.goBack();
   };
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: {
+      emotion: null,
+      description: "",
+      bodyExpression: "",
+    },
+  });
+
   return (
-    <ScrollView>
-      <Box safeArea p={5} flex={1} alignItems="center" justifyContent="center">
-        <Heading>Crear nueva entrada</Heading>
-        <TextInput
-          placeholder="Emoción"
-          value={emotion}
-          onChangeText={(text) => setEmotion(text)}
+    <KeyboardAvoidingView
+      flex={1}
+      h={{
+        base: "400px",
+        lg: "auto",
+      }}
+      behavior="position"
+    >
+      <FormControl>
+        <Controller
+          control={control}
+          name="emotion"
+          rules={{ required: { value: true, message: "Selecciona una emoción" } }}
+          render={({ field: { onChange, value } }) => (
+            <FlatList
+              paddingX={4}
+              numColumns={4}
+              columnWrapperStyle={{ justifyContent: "space-between" }}
+              data={getEmotionsByAvatar(profile!.avatar)}
+              renderItem={({ item: { EmotionSvg, name, description } }) =>
+                EmotionPicker({
+                  EmotionSvg,
+                  description,
+                  name,
+                  onPress: () => onChange(name),
+                  value,
+                })
+              }
+              keyExtractor={(item) => item.id.toString()}
+              ListHeaderComponent={() => EntryHeader({ date, isToday })}
+              ListFooterComponent={() =>
+                EntryFooter({
+                  control,
+                  errors,
+                  onPress: handleSubmit(onSubmit),
+                  isToday,
+                })
+              }
+            />
+          )}
         />
-        <TextInput
-          placeholder="Descripción"
-          value={description}
-          onChangeText={(text) => setDescription(text)}
-        />
-        <TextInput
-          placeholder="Expresion corporal"
-          value={bodyExpression}
-          onChangeText={(text) => setBodyExpression(text)}
-        />
-        <Button onPress={handlePress}>Agregar</Button>
-      </Box>
-    </ScrollView>
+      </FormControl>
+    </KeyboardAvoidingView>
   );
 };
 
