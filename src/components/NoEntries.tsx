@@ -7,7 +7,7 @@ import { useAppSelector } from "../hooks/redux";
 import { getProperSize } from "../utils/size";
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
-const avatarSize = getProperSize(SCREEN_HEIGHT, 0.2, 180);
+const avatarSize = getProperSize(SCREEN_HEIGHT, 0.15, 180);
 
 const NoEntries: FC = () => {
   const { profile } = useAppSelector((state) => state.user);
