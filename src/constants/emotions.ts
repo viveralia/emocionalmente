@@ -50,49 +50,54 @@ export const emotionsList: Emotion[] = [
     id: 1,
     name: "avergonzado",
     EmotionSvg: Emotion1,
-    description: "",
+    description:
+      "Es la turbación del ánimo que se produce por una falta cometida o por alguna acción humillante y deshonrosa, ya sea propia o ajena.",
     avatar: "LUP",
   },
   {
     id: 2,
     name: "enamorada",
     EmotionSvg: Emotion2,
-    description: "",
+    description:
+      "Hace referencia a un estado emocional de alegría y felicidad que sentimos cuando nos encontramos fuertemente atraídos por otra persona, a la que idealizamos y le atribuimos toda una serie de cualidades que en la mayoría de los casos magnificamos.",
     avatar: "VALU",
   },
   {
     id: 3,
     name: "confundido",
     EmotionSvg: Emotion3,
-    description: "",
+    description: "Mezclar cosas o personas que no puedan distinguirse unas de otras.",
     avatar: "LUP",
   },
   {
     id: 4,
     name: "envidiosa",
     EmotionSvg: Emotion4,
-    description: "",
+    description:
+      "Es un sentimiento o estado mental en el cual existe dolor o desdicha por no poseer uno mismo lo que tiene el otro, sea en bienes, cualidades superiores u otra clase de cosas tangibles e intangibles.",
     avatar: "VALU",
   },
   {
     id: 5,
     name: "pensativo",
     EmotionSvg: Emotion5,
-    description: "",
+    description:
+      "Meditas intensamente algún pensamiento o idea de una manera intensa y está abstraído en sus pensamientos.",
     avatar: "LUP",
   },
   {
     id: 6,
     name: "apática",
     EmotionSvg: Emotion6,
-    description: "",
+    description: "Estado de ánimo impasible que se refleja en la ausencia de ganas o entusiasmo. ",
     avatar: "VALU",
   },
   {
     id: 7,
-    name: "",
+    name: "aterrado",
     EmotionSvg: Emotion7,
-    description: "",
+    description:
+      "Sensación desagradable provocada por la percepción de peligro, real o imaginario.",
     avatar: "LUP",
   },
   {
@@ -106,28 +111,32 @@ export const emotionsList: Emotion[] = [
     id: 9,
     name: "feliz",
     EmotionSvg: Emotion9,
-    description: "",
+    description:
+      "Es un estado emocional temporal que podemos elegir o no tener frente a las cosas.",
     avatar: "VALU",
   },
   {
     id: 10,
     name: "enojado",
     EmotionSvg: Emotion10,
-    description: "",
+    description:
+      "El enojo es una alteración anímica que genera irritación, rabia y/o afán de revancha o venganza.",
     avatar: "LUP",
   },
   {
     id: 11,
     name: "aterrada",
     EmotionSvg: Emotion11,
-    description: "",
+    description:
+      "Sensación desagradable provocada por la percepción de peligro, real o imaginario.",
     avatar: "VALU",
   },
   {
     id: 12,
-    name: "",
+    name: "feliz",
     EmotionSvg: Emotion12,
-    description: "",
+    description:
+      "Es un estado emocional temporal que podemos elegir o no tener frente a las cosas.",
     avatar: "LUP",
   },
   {
@@ -155,12 +164,12 @@ export const emotionsList: Emotion[] = [
     id: 16,
     name: "seguro",
     EmotionSvg: Emotion16,
-    description: "",
+    description: "Es una sensación de satisfacción.",
     avatar: "LUP",
   },
   {
     id: 17,
-    name: "miedo",
+    name: "Aterrado?",
     EmotionSvg: Emotion17,
     description: "",
     avatar: "LUP",
@@ -169,21 +178,23 @@ export const emotionsList: Emotion[] = [
     id: 18,
     name: "aburrida",
     EmotionSvg: Emotion18,
-    description: "",
+    description:
+      "Estado de sentirse desinteresado sobre lo que lo rodea a uno, no tener nada que hacer.",
     avatar: "VALU",
   },
   {
     id: 19,
     name: "furioso",
     EmotionSvg: Emotion19,
-    description: "",
+    description: "Persona que está muy agitada o violenta a causa de un gran enojo.",
     avatar: "LUP",
   },
   {
     id: 20,
     name: "enojada",
     EmotionSvg: Emotion20,
-    description: "",
+    description:
+      "El enojo es una alteración anímica que genera irritación, rabia y/o afán de revancha o venganza.",
     avatar: "VALU",
   },
   {
@@ -197,14 +208,16 @@ export const emotionsList: Emotion[] = [
     id: 22,
     name: "estresada",
     EmotionSvg: Emotion22,
-    description: "",
+    description:
+      "Es un sentimiento de tensión física o emocional. Puede provenir de cualquier situación o pensamiento que lo haga sentir a uno frustrado, furioso o nervioso. ",
     avatar: "VALU",
   },
   {
     id: 23,
     name: "enamorado",
     EmotionSvg: Emotion23,
-    description: "",
+    description:
+      "Hace referencia a un estado emocional de alegría y felicidad que sentimos cuando nos encontramos fuertemente atraídos por otra persona, a la que idealizamos y le atribuimos toda una serie de cualidades que en la mayoría de los casos magnificamos.",
     avatar: "LUP",
   },
   {
@@ -232,7 +245,7 @@ export const emotionsList: Emotion[] = [
     id: 27,
     name: "confundida",
     EmotionSvg: Emotion27,
-    description: "",
+    description: "Mezclar cosas o personas que no puedan distinguirse unas de otras.",
     avatar: "VALU",
   },
   {
@@ -260,14 +273,15 @@ export const emotionsList: Emotion[] = [
     id: 31,
     name: "confiada",
     EmotionSvg: Emotion31,
-    description: "",
+    description: "Es una sensación de satisfacción.",
     avatar: "VALU",
   },
   {
     id: 32,
     name: "angustiado",
     EmotionSvg: Emotion32,
-    description: "",
+    description:
+      "Es un estado afectivo que se caracteriza por aparecer como reacción ante un peligro desconocido o impresión.",
     avatar: "LUP",
   },
 ];
