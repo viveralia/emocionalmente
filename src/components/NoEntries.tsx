@@ -19,7 +19,7 @@ const NoEntries: FC = () => {
         <EmotionSvg width={avatarSize} height={avatarSize} />
       </Box>
       <Text textAlign="center" mb={6}>
-        Parece que no has escrito nada aún
+        Parece que no he escrito nada aún
       </Text>
     </Box>
   );
