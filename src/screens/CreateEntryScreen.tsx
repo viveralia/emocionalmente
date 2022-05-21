@@ -35,6 +35,7 @@ const CreateEntryScreen: FC<NativeStackScreenProps<EntriesStackParamList>> = ({
         emotion: data.emotion,
         description: data.description,
         bodyExpression: data.bodyExpression,
+        createdAt: date,
       })
     );
     navigation.goBack();

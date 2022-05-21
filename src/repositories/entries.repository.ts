@@ -15,6 +15,7 @@ export class EntriesRepository {
     const newEntry = this.repository.create(payload);
     return this.repository.save(newEntry);
   }
+
   public getEntries() {
     return this.repository.find();
   }

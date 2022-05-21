@@ -14,6 +14,6 @@ export class EntryModel {
   @Column()
   bodyExpression: string;
 
-  @CreateDateColumn()
+  @Column({ type: Date })
   createdAt: Date;
 }
